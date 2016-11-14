@@ -1,6 +1,7 @@
 import React from 'react';
 import { render } from 'react-dom';
 import { Router, Route, browserHistory, IndexRoute } from 'react-router';
+window.jQuery = window.$ =  require('jquery/dist/jquery.min');
 import App from './modules/App';
 import Home from './modules/Home';
 import Posts from './modules/Posts';
@@ -10,6 +11,7 @@ import Photo from './modules/Photo';
 import Users from './modules/Users';
 import User from './modules/User';
 import Contact from './modules/Contact';
+
 
 render((
   <Router history={browserHistory}>
