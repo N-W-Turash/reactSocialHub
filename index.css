@@ -1,0 +1,132 @@
+#app{
+    max-width: 90%;
+    margin: auto;
+    background: #f7f7f7;
+    border: 1px solid gainsboro;
+}
+
+.active {
+    color: #e4e4e4 !important;
+    background-color: #2f8fd4;
+}
+
+.dosis{
+    font-family: 'Dosis', sans-serif;
+}
+
+.pt-sans, .caption >h4{
+    font-family: 'PT Sans Narrow', sans-serif;
+}
+
+.navbar-deep-blue .navbar-nav>li>a, glyphicon{
+    color: #fff ;
+}
+
+.glyphicon{
+    margin-right: 4px;
+    position: relative;
+    top: 2px;
+}
+
+.navbar-deep-blue .navbar-nav>li>a:focus, .navbar-deep-blue .navbar-nav>li>a:hover {
+    color: #f9f9f9;
+    background-color: #2f8fd4;
+}
+
+.navbar-deep-blue{
+    background-color: #0d304c;
+    border: 0;
+}
+
+@media (min-width:768px) {
+    .navbar-deep-blue{
+        max-width: 95%;
+    }
+}
+
+@media (max-width:768px) {
+    .navbar-deep-blue{
+        max-width: 90%;
+    }
+}
+
+.zero-radius{
+    border-radius: 0;
+}
+
+.point-45-em{
+    font-size: .45em;
+}
+
+.title-holder{
+    padding:.5em;
+    margin-top: -10px;
+}
+
+.bottom-padding{
+    padding-bottom: 23px;
+}
+
+.bottom-padding-5{
+    padding-bottom: 5px;
+}
+
+.custom-well{
+    background-color: #fffbef;
+    border: 1px solid #d6d6d6;
+}
+
+.center-text{
+    text-align: center;
+}
+
+.custom-well-post{
+    max-width: 800px;
+    margin-bottom: 10px;
+}
+
+.left-right-margin-hack{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.post-title{
+    font-size: 1.1em;
+}
+
+.right-margin{
+    margin-right: 10px
+}
+
+.res-img{
+    max-width:100%;
+    height: auto;
+}
+
+.form-control:focus {
+    border-color: #2f8fd4;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.thumb-img{
+    min-height: 240px;
+    padding-top: 1em;
+}
+
+.bottom-margin-30{
+    margin-bottom: 30px;
+}
+
+.fa-cog{
+    color: #0d304c;
+}
+
+.react-anime-appear {
+    opacity: 0.01;
+}
+
+.react-anime-appear.react-anime-appear-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
