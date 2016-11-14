@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "bootstrap-sass-loader": "^1.0.10",
+    "bootstrap-webpack": "0.0.5",
     "font-awesome-webpack": "0.0.4",
     "jquery": "^2.2",
     "less": "^2.7.1",
