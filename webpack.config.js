@@ -10,6 +10,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader?presets[]=es2015&presets[]=react' },
+      { test: /\.css$/, loader: "style-loader!css-loader" },
       {
         test: /\.(jpe?g|png|gif|svg)$/i,
             loaders: [
@@ -17,10 +18,26 @@ module.exports = {
                 'image-webpack?bypassOnDebug&optimizationLevel=7&interlaced=false'
             ]
       },
-      { test: /\.(woff|woff2)$/,  loader: "url-loader?limit=10000&mimetype=application/font-woff" },
-      { test: /\.ttf$/,    loader: "file-loader" },
-      { test: /\.eot$/,    loader: "file-loader" },
-      { test: /\.svg$/,    loader: "file-loader" }
+      {
+            test: /\.woff(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=application/font-woff&name=./webpack-assets/[name]/[hash].[ext]"
+      },
+      {
+            test: /\.woff2(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=application/font-woff&name=./webpack-assets/[name]/[hash].[ext]"
+      },
+      {
+            test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=application/octet-stream&name=./webpack-assets/[name]/[hash].[ext]"
+      },
+      {
+            test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "file?&name=./webpack-assets/[name]/[hash].[ext]"
+      },
+      {
+            test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
+            loader: "url?limit=10000&mimetype=image/svg+xml&name=./webpack-assets/[name]/[hash].[ext]"
+      }
     ]
   },
   plugins: [

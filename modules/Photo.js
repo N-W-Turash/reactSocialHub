@@ -39,7 +39,7 @@ export default React.createClass({
             >
                 <div className="pt-sans bottom-padding zero-radius well custom-well custom-well-post center-text left-right-margin-hack bottom-margin-30">
                     <p><b>Title :</b> {this.state.photo.title}</p>
-                    <img src={this.state.photo.thumbnailUrl} alt="..." className="res-img"/>
+                    <img src={this.state.photo.url} alt="..." className="res-img"/>
                 </div>
             </ReactCSSTransitionGroup>
         );
