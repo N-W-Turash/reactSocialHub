@@ -1,6 +1,5 @@
 import React from 'react';
 import NavLink from './NavLink';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default React.createClass({
   render() {
