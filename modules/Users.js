@@ -1,6 +1,7 @@
 import React from 'react';
 import NavLink from './NavLink';
 import Loader from './Loader';
+import {ROOT} from './config';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default React.createClass({
@@ -14,11 +15,11 @@ export default React.createClass({
     },
 
     componentDidMount() {
-        const root = 'https://jsonplaceholder.typicode.com';
+
         const that = this;
         that.setState({isLoaded: true});
         $.ajax({
-           url: root + '/users',
+           url: ROOT + '/users',
            method: 'GET'
         }).then(function(result) {
             that.setState({users: result});
@@ -50,7 +51,7 @@ export default React.createClass({
                                         <p><b>Name: </b> {singleUser.name}</p>
                                         <p><b>Username: </b> {singleUser.username}</p>
                                         <p><b>Email: </b> {singleUser.email}</p>
-                                        <p className="post-title"><NavLink to={"/users/"+singleUser.id} className="pt-sans">See More</NavLink></p>
+                                        <p className="post-title"><NavLink to={"/users/"+singleUser._id} className="pt-sans">See More</NavLink></p>
                                     </div>
                                 </div>
                             );

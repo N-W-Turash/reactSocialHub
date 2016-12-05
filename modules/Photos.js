@@ -1,6 +1,7 @@
 import React from 'react';
 import NavLink from './NavLink';
 import Loader from './Loader';
+import {ROOT} from './config';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 
@@ -15,11 +16,11 @@ export default React.createClass({
   },
 
   componentDidMount() {
-    const root = 'https://jsonplaceholder.typicode.com';
+
     const that = this;
     that.setState({isLoaded: true});
     $.ajax({
-        url: root + '/photos',
+        url: ROOT + '/photos',
         method: 'GET'
     }).then(function(result) {
         that.setState({
@@ -48,7 +49,7 @@ export default React.createClass({
                       return (
                         <div className="col-lg-3 col-sm-6 col-md-4">
                           <div className="thumbnail zero-radius thumb-img bottom-margin-30">
-                            <NavLink to={"/photos/"+singlePhoto.id} ><img src={singlePhoto.thumbnailUrl} alt="..." /></NavLink>
+                            <NavLink to={"/photos/"+singlePhoto._id} ><img src={singlePhoto.imageUrl} alt="..." /></NavLink>
                             <div className="caption center-text">
                               <h4>{singlePhoto.title.substr(0,20)+"..."}</h4>
                             </div>

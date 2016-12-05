@@ -1,5 +1,6 @@
 import React from 'react';
 import Loader from './Loader';
+import {ROOT} from './config';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default React.createClass({
@@ -12,11 +13,11 @@ export default React.createClass({
     },
 
     componentDidMount() {
-        const root = 'https://jsonplaceholder.typicode.com';
+
         const that = this;
         that.setState({isLoaded: true});
         $.ajax({
-            url: root + '/photos/'+this.props.params.id,    
+            url: ROOT + '/photos/'+this.props.params.id,
             method: 'GET'
         }).then(function(result) {
             that.setState({photo: result});
@@ -39,7 +40,7 @@ export default React.createClass({
             >
                 <div className="pt-sans bottom-padding zero-radius well custom-well custom-well-post center-text left-right-margin-hack bottom-margin-30">
                     <p><b>Title :</b> {this.state.photo.title}</p>
-                    <img src={this.state.photo.url} alt="..." className="res-img"/>
+                    <img src={this.state.photo.imageUrl} alt="..." className="res-img"/>
                 </div>
             </ReactCSSTransitionGroup>
         );
