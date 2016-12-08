@@ -14,7 +14,7 @@
     font-family: 'Dosis', sans-serif;
 }
 
-.pt-sans, .caption >h4{
+.pt-sans, .caption >h4, body{
     font-family: 'PT Sans Narrow', sans-serif;
 }
 
@@ -130,3 +130,40 @@
     opacity: 1;
     transition: opacity 500ms ease-in;
 }
+
+.btn{
+    border-radius: 0;
+}
+
+.view-more{
+    margin-bottom: 15px;
+}
+
+.modal-backdrop.in {
+    opacity: 0;
+}
+
+.modal-content {
+    border: 1px solid #d6d6d6;
+    border-radius: 2px;
+}
+
+@media (max-width: 767px){
+    .btn{
+        margin-bottom:15px;
+    }
+}
+
+.dropdown-menu {
+    background-color: #f7f7f7;
+    border-radius: 2px;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
+.photo-btn-group{
+    position: relative;
+    top: -15px;
+    left: 5px;
+}
+

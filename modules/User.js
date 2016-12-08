@@ -43,7 +43,7 @@ export default React.createClass({
                 transitionEnter = {false} transitionLeave = {false}
             >
                 <div className="pt-sans bottom-padding zero-radius well custom-well custom-well-post left-right-margin-hack bottom-margin-30">
-                    <p><b>ID: </b> {this.props.params._id}</p>
+                    <p><b>ID: </b> {this.props.params.id}</p>
                     <p><b>Name: </b> {this.state.user.name}</p>
                     <p><b>Username: </b> {this.state.user.username}</p>
                     <p><b>Email: </b> {this.state.user.email}</p>
