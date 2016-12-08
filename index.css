@@ -51,7 +51,7 @@
 }
 
 .zero-radius{
-    border-radius: 0;
+    border-radius: 2px;
 }
 
 .point-45-em{
@@ -167,3 +167,27 @@
     left: 5px;
 }
 
+.post-form{
+    max-width:800px;
+    margin: auto;
+    text-align: left;
+}
+
+.post-form-holder{
+    max-width: 800px;
+    margin: 10px auto 30px;
+}
+
+input{
+    margin-bottom: 10px;
+}
+
+.text-container{
+    max-width: 760px;
+    margin-left: auto;
+    margin-right:auto;
+}
+
+input[type="submit"]:disabled {
+    cursor: default;
+}

@@ -1,9 +1,11 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import TimeAgo from 'react-timeago';
 import NavLink from './NavLink';
 import Loader from './Loader';
 import {ROOT} from './config';
 import DeleteModal from './DeleteModal';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import  CreatePost from './CreatePost';
 
 export default React.createClass({
 
@@ -14,7 +16,10 @@ export default React.createClass({
             limit:20,
             page:0,
             showModal: false,
-            deleteId: null
+            deleteId: null,
+            user_id:null,
+            title:'',
+            body:''
         };
     },
 
@@ -67,7 +72,51 @@ export default React.createClass({
         });
     },
 
-    //this.deletePost.bind(this, singleInfo._id)
+    formHandler(event){
+      event.preventDefault();
+      /*console.log('user id: ', this.state.user_id);
+      console.log('title: ', this.state.title);
+      console.log('post: ', this.state.body);*/
+
+      const that = this;
+      const {info, user_id, title, body} = that.state;
+      const newInfo = {
+        user_id:user_id,
+        title: title,
+        body: body
+      }
+
+        $.ajax({
+            url: `${ROOT}/posts/`,
+            method: 'POST',
+            data:newInfo
+          }).then(function(result) {
+
+              info.unshift(result);
+              that.setState({
+                  info: info,
+                  user_id:null,
+                  title:'',
+                  body: ''
+              });
+
+        });
+    },
+
+    handleUserIdChange(event) {
+        this.setState({user_id: event.target.value});
+        //console.log(this.state.user_id);
+    },
+
+    handleTitleChange(event) {
+        this.setState({title: event.target.value});
+        //console.log(this.state.title);
+    },
+
+    handlePostChange(event) {
+        this.setState({body: event.target.value});
+        //console.log(this.state.body);
+    },
 
     componentDidMount() {
         this.loadPosts();
@@ -85,6 +134,10 @@ export default React.createClass({
                 transitionAppear = {true} transitionAppearTimeout = {5000}
                 transitionEnter = {false} transitionLeave = {false}
             >
+                <CreatePost onFormSubmit={this.formHandler} userId={this.state.user_id} idHandler = {this.handleUserIdChange}
+                            titleVal = {this.state.title} titleHandler = {this.handleTitleChange} postVal = {this.state.body}
+                            postHandler =
+                                {this.handlePostChange}/>
                 <div className="row">
                     {
                         this.state.info.map(function (singleInfo) {
@@ -104,6 +157,7 @@ export default React.createClass({
                                             </ul>
                                         </div>
                                         <p><b>Post ID:</b> {singleInfo._id}</p>
+                                        <p className="post-title"><b>Posted At: </b><TimeAgo date= {singleInfo.createdAt}/></p>
                                         <p className="post-title"><b>Title: </b><NavLink to={"/posts/"+singleInfo._id}
                                                                                          className="pt-sans">{singleInfo
                                             .title}</NavLink></p>

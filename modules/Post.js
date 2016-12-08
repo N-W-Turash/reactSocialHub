@@ -1,7 +1,8 @@
 import React from 'react';
+import TimeAgo from 'react-timeago';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import Loader from './Loader';
 import {ROOT} from './config';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default React.createClass({
 
@@ -43,7 +44,8 @@ export default React.createClass({
                 <div className="pt-sans bottom-padding zero-radius well custom-well custom-well-post left-right-margin-hack bottom-margin-30">
                     <p><b>User ID:</b> {this.state.info.user_id}</p>
                     <p className="post-title pt-sans"><b>Title: </b>{this.state.info.title}</p>
-                    <p className="post-title pt-sans"><b>Post No. : </b>{this.props.params.id}</p>
+                    <p className="post-title"><b>Posted At: </b>{this.state.info.createdAt ? <TimeAgo date= {this.state.info.createdAt}/>: undefined}</p>
+                    <p className="post-title pt-sans"><b>Post Id : </b>{this.props.params.id}</p>
                     <p><b>Post: </b>{this.state.info.body}</p>
                 </div>
             </ReactCSSTransitionGroup>
