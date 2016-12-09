@@ -5,6 +5,7 @@ import NavLink from './NavLink';
 import Loader from './Loader';
 import {ROOT} from './config';
 import DeleteModal from './DeleteModal';
+import EditModal from './EditModal';
 import  CreatePost from './CreatePost';
 
 export default React.createClass({
@@ -19,9 +20,15 @@ export default React.createClass({
             deleteId: null,
             user_id:null,
             title:'',
-            body:''
+            body:'',
+            showEditModal: false,
+            editId: null,
+            editTitle: '',
+            editBody: ''
         };
     },
+
+    /*modal staffs*/
 
     close() {
         this.setState({ showModal: false });
@@ -34,6 +41,23 @@ export default React.createClass({
             deleteId: id
         });
     },
+
+    closeEditModal() {
+        this.setState({ showEditModal: false });
+    },
+
+    openEditModal(info, e) {
+        e.preventDefault();
+        this.setState({
+            showEditModal: true,
+            editId: info._id,
+            editTitle: info.title,
+            editBody: info.body
+        });
+        //console.log(info);
+    },
+
+    /*end of modal staffs*/
 
     loadPosts(){
         const that = this;
@@ -71,6 +95,58 @@ export default React.createClass({
             }
         });
     },
+
+    /* edit post staffs */
+
+    editPost(id, event){
+
+        event.preventDefault();
+        const that = this;
+        const {info, editTitle, editBody} = that.state;
+        const newInfo = {
+            editTitle: editTitle,
+            editBody: editBody
+        }
+        console.log(newInfo);
+
+        $.ajax({
+            url: `${ROOT}/posts/${id}`,
+            method: 'PUT',
+            data: newInfo
+        }).then(function(result) {
+            let index = that.state.info.map(inf => inf._id).indexOf(id);
+            if(index > -1){
+                /*info = info
+                //console.log(info);*/
+
+
+                info[index].title = editTitle;
+                info[index].body = editBody;
+
+                that.setState({
+                    info: info,
+                    showEditModal: false
+                });
+
+
+                //console.log(index);
+            }
+        });
+    },
+
+    handleEditTitleChange(event) {
+        this.setState({editTitle: event.target.value});
+        //console.log(this.state.editTitle);
+    },
+
+    handleEditBodyChange(event) {
+        this.setState({editBody: event.target.value});
+        //console.log(this.state.editBody);
+    },
+
+    /* end of edit post staffs */
+
+    /* from related staffs */
 
     formHandler(event){
       event.preventDefault();
@@ -118,6 +194,8 @@ export default React.createClass({
         //console.log(this.state.body);
     },
 
+    /* end of from related staffs */
+
     componentDidMount() {
         this.loadPosts();
     },
@@ -153,7 +231,8 @@ export default React.createClass({
                                             <ul className="dropdown-menu">
                                                 <li><a href="" onClick={this.open.bind(this, singleInfo._id)
                                                 }>Delete Post</a></li>
-                                                <li><a href="">Edit Post</a></li>
+                                                <li><a href="" onClick={this.openEditModal.bind(this, singleInfo)
+                                                }>Edit Post</a></li>
                                             </ul>
                                         </div>
                                         <p><b>Post ID:</b> {singleInfo._id}</p>
@@ -169,6 +248,9 @@ export default React.createClass({
                     }
                     <DeleteModal show={this.state.showModal} onDelete={this.deletePost} hide={this.close} deleteId={this.state
                         .deleteId} />
+                    <EditModal show = {this.state.showEditModal} onEdit = {this.editPost} hide = {this.closeEditModal} editId =
+                        {this.state.editId} title= {this.state.editTitle} body= {this.state.editBody} editTitleHandler = {this
+                        .handleEditTitleChange} editBodyHandler = {this.handleEditBodyChange}/>
                 </div>
                 {this.state.isLoaded ? <Loader /> : undefined}
                 {this.state.page < this.state.pages? (
