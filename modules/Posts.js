@@ -7,6 +7,7 @@ import {ROOT} from './config';
 import DeleteModal from './DeleteModal';
 import EditModal from './EditModal';
 import  CreatePost from './CreatePost';
+import PostSort from  './PostSort';
 
 export default React.createClass({
 
@@ -24,7 +25,8 @@ export default React.createClass({
             showEditModal: false,
             editId: null,
             editTitle: '',
-            editBody: ''
+            editBody: '',
+            sortVal: 'Most Recent'
         };
     },
 
@@ -59,15 +61,27 @@ export default React.createClass({
 
     /*end of modal staffs*/
 
-    loadPosts(){
+    loadPosts(append){
         const that = this;
         that.setState({isLoaded: true});
+        let shouldAppend = append || false;
+
+        //let page = this.state.page + 1;
+        //if(!shouldAppend) page = 1;
+
+        let page = 0
+        if(shouldAppend) {
+            page = this.state.page + 1
+        } else {
+            page = 1;
+        }
+
         $.ajax({
-            url: `${ROOT}/posts/?limit=${this.state.limit}&page=${this.state.page+1}`,
+            url: `${ROOT}/posts/?limit=${this.state.limit}&page=${page}&sortVal=${this.state.sortVal.toLowerCase()}`,
             method: 'GET'
         }).then((result) =>
             that.setState({
-                info: that.state.info.concat(result.docs),
+                info: (shouldAppend)? that.state.info.concat(result.docs) : result.docs,
                 isLoaded: false,
                 limit: result.limit,
                 page: result.page,
@@ -154,27 +168,27 @@ export default React.createClass({
       console.log('title: ', this.state.title);
       console.log('post: ', this.state.body);*/
 
-      const that = this;
-      const {info, user_id, title, body} = that.state;
-      const newInfo = {
-        user_id:user_id,
-        title: title,
-        body: body
-      }
+        const that = this;
+        const {info, user_id, title, body} = that.state;
+        const newInfo = {
+            user_id:user_id,
+            title: title,
+            body: body
+        }
 
         $.ajax({
             url: `${ROOT}/posts/`,
             method: 'POST',
             data:newInfo
-          }).then(function(result) {
+        }).then(function(result) {
 
-              info.unshift(result);
-              that.setState({
-                  info: info,
-                  user_id:null,
-                  title:'',
-                  body: ''
-              });
+            info.unshift(result);
+            that.setState({
+                info: info,
+                user_id:null,
+                title:'',
+                body: ''
+            });
 
         });
     },
@@ -196,12 +210,46 @@ export default React.createClass({
 
     /* end of from related staffs */
 
+    /* post sort */
+
+    handleSelectChange(event) {
+        this.setState({sortVal: event.target.value}, () => {
+            this.loadPosts(false);
+            // //console.log(this.state.sortVal);
+            // const that = this;
+            // const {info} = this.state;
+            //
+            // $.ajax({
+            //     url: `${ROOT}/posts/`,
+            //     method: 'GET',
+            //     data: {
+            //         sortVal : this.state.sortVal.toLowerCase(),
+            //         limit: this.state.limit
+            //     }
+            // }).then(function(result) {
+            //     console.log(result);
+            //     that.setState({
+            //         info: result.docs
+            //     });
+            //
+            // });
+        });
+
+    },
+
+    /* end of post sort */
+
+    customPost(post){
+        //return post.substr(0,5)+ "...";
+        return post;
+    },
+
     componentDidMount() {
         this.loadPosts();
     },
 
     handleViewMore(){
-        this.loadPosts();
+        this.loadPosts(true);
     },
 
     render() {
@@ -216,6 +264,9 @@ export default React.createClass({
                             titleVal = {this.state.title} titleHandler = {this.handleTitleChange} postVal = {this.state.body}
                             postHandler =
                                 {this.handlePostChange}/>
+
+                <PostSort sortVal = {this.state.sortVal} onPostSort = {this.handleSelectChange}/>
+
                 <div className="row">
                     {
                         this.state.info.map(function (singleInfo) {
@@ -240,7 +291,13 @@ export default React.createClass({
                                         <p className="post-title"><b>Title: </b><NavLink to={"/posts/"+singleInfo._id}
                                                                                          className="pt-sans">{singleInfo
                                             .title}</NavLink></p>
-                                        <p><b>Post: </b>{singleInfo.body}</p>
+                                        <p>
+                                            <b>Post: </b>
+                                            {singleInfo.body.length > 350 ?
+                                                <span>{singleInfo.body.substr(0, 350)}
+                                                <a href={'/posts/' + singleInfo._id} target="_blank"> See More</a></span> :
+                                                    singleInfo.body}
+                                        </p>
                                     </div>
                                 </div>
                             );

@@ -1,9 +1,10 @@
 import React from 'react';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 import NavLink from './NavLink';
 import Loader from './Loader';
 import {ROOT} from './config';
 import DeleteModal from './DeleteModal';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import PhotoUpload from './PhotoUpload';
 
 export default React.createClass({
 
@@ -82,6 +83,8 @@ export default React.createClass({
             transitionAppear = {true} transitionAppearTimeout = {5000}
             transitionEnter = {false} transitionLeave = {false}
         >
+
+            <PhotoUpload/>
             <div className="user-container row">
                 {
                   this.state.photos.map(function (singlePhoto) {
