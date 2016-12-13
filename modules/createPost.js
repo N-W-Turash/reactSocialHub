@@ -1,5 +1,4 @@
 import React from 'react';
-//import {Button, Modal} from 'react-bootstrap';
 
 export default React.createClass({
 

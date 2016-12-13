@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "babel-plugin-transform-object-rest-spread": "^6.20.2",
     "bootstrap": "^3.3.7",
     "bootstrap-sass-loader": "^1.0.10",
     "bootstrap-webpack": "0.0.5",

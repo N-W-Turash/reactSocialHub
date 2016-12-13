@@ -210,3 +210,31 @@ input[type="submit"]:disabled {
     }
 }
 
+.thumbnail a>img, .thumbnail>img {
+    max-height: 150px;
+    overflow: hidden;
+}
+
+.thumbnail{
+    max-height: 260px;
+    min-height: 260px;
+}
+
+.photo-text{
+    margin-bottom: 10px;
+}
+
+.filter-section{
+    max-width: 800px;
+    margin: auto;
+}
+
+.filter-search{
+    height: 42px;
+}
+
+.post-text{
+    font-size: 1.1em;
+    text-align: justify;
+}
+

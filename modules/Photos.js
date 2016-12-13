@@ -48,6 +48,7 @@ export default React.createClass({
     });
   },
 
+
   deletePost(id, e){
     e.preventDefault();
     console.log('deleted');
@@ -68,6 +69,16 @@ export default React.createClass({
     });
   },
 
+
+  postPhoto(data){
+    const {photos} = this.state;
+      let newPhotos = [].concat(photos);
+      newPhotos.unshift(data);
+    this.setState({
+        photos: newPhotos
+    });
+  },
+
   componentDidMount() {
     this.loadPosts();
   },
@@ -84,7 +95,7 @@ export default React.createClass({
             transitionEnter = {false} transitionLeave = {false}
         >
 
-            <PhotoUpload/>
+            <PhotoUpload photos = {this.state.photos} postPhoto = {this.postPhoto}/>
             <div className="user-container row">
                 {
                   this.state.photos.map(function (singlePhoto) {
@@ -102,7 +113,7 @@ export default React.createClass({
                             </div>
                             <NavLink to={"/photos/"+singlePhoto._id} ><img src={singlePhoto.imageUrl} alt="..." /></NavLink>
                             <div className="caption center-text">
-                              <h4>{singlePhoto.title.substr(0,20)+"..."}</h4>
+                              <h4 className="photo-text">{singlePhoto.title.length > 60 ? singlePhoto.title.substr(0,30)+"..." : singlePhoto.title}</h4>
                             </div>
                           </div>
                         </div>

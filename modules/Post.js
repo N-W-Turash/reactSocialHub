@@ -46,7 +46,7 @@ export default React.createClass({
                     <p className="post-title pt-sans"><b>Title: </b>{this.state.info.title}</p>
                     <p className="post-title"><b>Posted At: </b>{this.state.info.createdAt ? <TimeAgo date= {this.state.info.createdAt}/>: undefined}</p>
                     <p className="post-title pt-sans"><b>Post Id : </b>{this.props.params.id}</p>
-                    <p><b>Post: </b>{this.state.info.body}</p>
+                    <p className="post-text"><b>Post: </b>{this.state.info.body}</p>
                 </div>
             </ReactCSSTransitionGroup>
         );

@@ -8,6 +8,8 @@ import DeleteModal from './DeleteModal';
 import EditModal from './EditModal';
 import  CreatePost from './CreatePost';
 import PostSort from  './PostSort';
+import FilterSearch from  './FilterSearch';
+
 
 export default React.createClass({
 
@@ -26,7 +28,8 @@ export default React.createClass({
             editId: null,
             editTitle: '',
             editBody: '',
-            sortVal: 'Most Recent'
+            sortVal: 'Most Recent',
+            searchText: ''
         };
     },
 
@@ -66,9 +69,6 @@ export default React.createClass({
         that.setState({isLoaded: true});
         let shouldAppend = append || false;
 
-        //let page = this.state.page + 1;
-        //if(!shouldAppend) page = 1;
-
         let page = 0
         if(shouldAppend) {
             page = this.state.page + 1
@@ -79,6 +79,7 @@ export default React.createClass({
         $.ajax({
             url: `${ROOT}/posts/?limit=${this.state.limit}&page=${page}&sortVal=${this.state.sortVal.toLowerCase()}`,
             method: 'GET'
+            //data: this.state.searchText
         }).then((result) =>
             that.setState({
                 info: (shouldAppend)? that.state.info.concat(result.docs) : result.docs,
@@ -164,9 +165,6 @@ export default React.createClass({
 
     formHandler(event){
       event.preventDefault();
-      /*console.log('user id: ', this.state.user_id);
-      console.log('title: ', this.state.title);
-      console.log('post: ', this.state.body);*/
 
         const that = this;
         const {info, user_id, title, body} = that.state;
@@ -182,9 +180,10 @@ export default React.createClass({
             data:newInfo
         }).then(function(result) {
 
-            info.unshift(result);
+            let newInfo = [].concat(info);
+            newInfo.unshift(result);
             that.setState({
-                info: info,
+                info: newInfo,
                 user_id:null,
                 title:'',
                 body: ''
@@ -214,35 +213,51 @@ export default React.createClass({
 
     handleSelectChange(event) {
         this.setState({sortVal: event.target.value}, () => {
-            this.loadPosts(false);
-            // //console.log(this.state.sortVal);
-            // const that = this;
-            // const {info} = this.state;
-            //
-            // $.ajax({
-            //     url: `${ROOT}/posts/`,
-            //     method: 'GET',
-            //     data: {
-            //         sortVal : this.state.sortVal.toLowerCase(),
-            //         limit: this.state.limit
-            //     }
-            // }).then(function(result) {
-            //     console.log(result);
-            //     that.setState({
-            //         info: result.docs
-            //     });
-            //
-            // });
+            if(this.state.searchText){
+                this.loadFilteredData();
+            }
+            else{
+                this.loadPosts(false);
+            }
         });
-
     },
 
     /* end of post sort */
 
-    customPost(post){
-        //return post.substr(0,5)+ "...";
-        return post;
+    /* filter serach */
+
+    loadFilteredData(){
+
+        const that = this;
+        $.ajax({
+            url: `${ROOT}/posts/`,
+            method: 'GET',
+            data: {
+                searchText: that.state.searchText,
+                /*exp*/
+                sortVal: that.state.sortVal.toLowerCase()
+            }
+        }).then(function(result) {
+
+            that.setState({
+                info: result.docs
+            });
+
+        });
+
+        console.log(this.state.sortVal);
     },
+
+    filterSearch(event){
+
+        this.setState({searchText: event.target.value}, () =>
+        {
+            console.log(this.state.searchText);
+            this.loadFilteredData();
+        });
+    },
+
+    /* end of filter serach */
 
     componentDidMount() {
         this.loadPosts();
@@ -265,7 +280,14 @@ export default React.createClass({
                             postHandler =
                                 {this.handlePostChange}/>
 
-                <PostSort sortVal = {this.state.sortVal} onPostSort = {this.handleSelectChange}/>
+                <div className="row filter-section">
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                        <PostSort sortVal = {this.state.sortVal} onPostSort = {this.handleSelectChange}/>
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                        <FilterSearch filterSearch = {this.filterSearch} searchText = {this.state.searchText}/>
+                    </div>
+                </div>
 
                 <div className="row">
                     {
@@ -291,7 +313,7 @@ export default React.createClass({
                                         <p className="post-title"><b>Title: </b><NavLink to={"/posts/"+singleInfo._id}
                                                                                          className="pt-sans">{singleInfo
                                             .title}</NavLink></p>
-                                        <p>
+                                        <p className="post-text">
                                             <b>Post: </b>
                                             {singleInfo.body.length > 350 ?
                                                 <span>{singleInfo.body.substr(0, 350)}
@@ -310,7 +332,7 @@ export default React.createClass({
                         .handleEditTitleChange} editBodyHandler = {this.handleEditBodyChange}/>
                 </div>
                 {this.state.isLoaded ? <Loader /> : undefined}
-                {this.state.page < this.state.pages? (
+                {this.state.page < this.state.pages && !this.state.searchText ? !(
                     <div className="center-text">
                         <button className="btn btn-success view-more" onClick={this.handleViewMore}>View More</button>
                     </div> ): undefined}
